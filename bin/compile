@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+indent() {
+    sed -u 's/^/       /'
+}
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+DOCKERFILE=$(cat "${ENV_DIR}/Dockerfile")
+
+if [[ -z "${DOCKERFILE}" ]]; then
+    echo "Dockerfile was not set. Aborting" | indent
+    exit 1
+fi
+
+cp "${BUILD_DIR}/${DOCKERFILE}" "${BUILD_DIR}/Dockerfile"
+
+if ! [ $? ]; then
+    echo "FAILED to copy a Dockerfile" | indent
+    exit 1
+fi
+
+echo "Copied ${DOCKERFILE} as Dockerfile successfully" | indent
+
+APP_DIR=$(dirname "${BUILD_DIR}/${DOCKERFILE}")
+
+if [[ -f "${APP_DIR}/app.json" ]]; then
+    cp "${APP_DIR}/app.json" "${BUILD_DIR}/app.json"
+    echo "Copied ${APP_DIR}/app.json as app.json successfully" | indent
+fi
