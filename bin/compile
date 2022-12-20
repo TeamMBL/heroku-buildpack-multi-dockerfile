@@ -8,10 +8,10 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
-DOCKERFILE=$(cat "${ENV_DIR}/Dockerfile")
+DOCKERFILE=$(cat "${ENV_DIR}/DOCKERFILE")
 
 if [[ -z "${DOCKERFILE}" ]]; then
-    echo "Dockerfile was not set. Aborting" | indent
+    echo "DOCKERFILE was not set. Aborting" | indent
     exit 1
 fi
 
